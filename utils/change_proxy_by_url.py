@@ -4,7 +4,7 @@ from loguru import logger
 from data import config
 
 
-async def change_proxy_by_url(private_key: str) -> None:
+async def change_proxy_by_url(private_key: str, link: str) -> None:
     while True:
         try:
             async with aiohttp.ClientSession(
@@ -14,7 +14,7 @@ async def change_proxy_by_url(private_key: str) -> None:
                         ssl=None
                     )
             ) as client:
-                r: aiohttp.ClientResponse = await client.get(url=config.CHANGE_PROXY_URL)
+                r: aiohttp.ClientResponse = await client.get(url=link)
 
                 logger.success(f'{private_key} | Successfully Chaing Proxy by URL, status: {r.status}')
 

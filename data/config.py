@@ -1,1 +1,1 @@
-CHANGE_PROXY_URL: str | None = ''
+THREADS = 2

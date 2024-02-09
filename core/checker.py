@@ -141,11 +141,12 @@ class Checker:
 
 
 async def start_checker(private_key: str,
-                        proxy: str | None = None) -> None:
+                        proxy: str | None = None,
+                        link: str | None = None) -> None:
     async with loader.semaphore:
         try:
-            if config.CHANGE_PROXY_URL:
-                await change_proxy_by_url(private_key=private_key)
+            if link:
+                await change_proxy_by_url(private_key=private_key, link=link)
 
             await Checker(private_key=private_key,
                           proxy=proxy).start_checker()
