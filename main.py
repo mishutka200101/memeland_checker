@@ -22,8 +22,9 @@ logger.add(stderr, format='<white>{time:HH:mm:ss}</white>'
 async def main() -> None:
     tasks: list = [
         asyncio.create_task(coro=start_checker(private_key=current_account,
-                                               proxy=next(proxies_cycled) if proxies_cycled else None,
-                                               link=next(links_list) if proxies_cycled else None))
+                                               proxy=next(
+                                                   proxies_cycled) if proxies_cycled else None,
+                                               link=next(links_cycled) if proxies_cycled else None))
         for current_account in accounts_list
     ]
 
@@ -48,11 +49,23 @@ if __name__ == '__main__':
 
     with open(file='data/links.txt',
               mode='r',
-              encoding='utf8-sig') as file:
-        links_list = list[str] = [row.strip() for row in file]
+              encoding='utf-8-sig') as file:
+        links_list: list[str] = [row.strip() for row in file]
+
+    with open(file='result/human.txt',
+              mode='r',
+              encoding='utf-8-sig') as file:
+        human_list: list[str] = [row.strip() for row in file]
+
+    with open(file='result/robot.txt',
+              mode='r',
+              encoding='utf-8-sig') as file:
+        robot_list: list[str] = [row.strip() for row in file]
+
+    done_list = human_list + robot_list
 
     accounts_list: list[str] = [
-        current_account for current_account in accounts_list if current_account]
+        current_account for current_account in accounts_list if current_account and current_account not in done_list]
 
     logger.success(
         f'Успешно загружено {len(accounts_list)} Accounts / {len(proxies_list)} Proxies')
